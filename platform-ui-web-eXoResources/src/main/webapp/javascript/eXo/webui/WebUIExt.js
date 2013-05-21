@@ -191,33 +191,54 @@
                 this.setSelectedItem(obj);
                 return;
             }
-            if (evt.keyCode == 13) {
-                this.setSelectedItem(obj);
-                this.hide();
-                return;
-            }
+            // disable Enter temporarily, probably use it in the future
+            //if (evt.keyCode == 13) { // click on Enter, hide box
+            //    this.setSelectedItem(obj);
+            //    this.hide();
+            //    return;
+            //}
             var sVal = obj.value.toLowerCase();
-            if (evt.keyCode == 8)
-                sVal = sVal.substring(0, sVal.length - 1)
-            if (sVal.length < 1)
-                return;
+            if (evt.keyCode == 8) {  // backspace
+                sVal = sVal.substring(0, sVal.length - 1);
+            }
+            if (sVal.length < 1) {  return;  }
             var data = eval($.trim(obj.getAttribute("options")));
             var len = data.length;
             var tmp = null;
+
+            // get time interval
+            var timeInterval = parseInt(data[1].trim().substring(3, 5)) -  parseInt(data[0].trim().substring(3, 5));
+
+            // we make a comparable version of time value by appending 0 to the end
+            var fullSValue = sVal;
+            while (fullSValue.length < 5) {
+                if (fullSValue.length == 2) fullSValue += ':';
+                else fullSValue += '0';
+            }
+
             for (var i = 0; i < data.length; i++) {
                 tmp = $.trim(data[i]);
-                var idx = tmp.toLowerCase().indexOf(sVal, 0);
-                if (idx == 0 && tmp.length > sVal.length) {
-                    obj.value = data[i];
-                    if (obj.createTextRange) {
-                        hRange = obj.createTextRange();
-                        hRange.findText(data[i].substr(sVal.length));
-                        hRange.select();
-                    } else {
-                        obj.setSelectionRange(sVal.length, tmp.length);
+
+                var timeDiff = parseInt(tmp.substring(0,2)) * 60 + parseInt(tmp.substring(3,5))
+                    - (parseInt(fullSValue.substring(0,2)) * 60 + parseInt(fullSValue.substring(3,5)));
+                if (Math.abs(timeDiff) <= (timeInterval / 2)) {
+                    // select input text
+                    if (tmp.length > sVal.length) {
+                        obj.value = fullSValue;
+                        if (obj.createTextRange) { // IE
+                            hRange = obj.createTextRange();
+                            hRange.findText(data[i].substr(sVal.length));
+                            hRange.select();
+                        } else {
+                            obj.setSelectionRange(sVal.length, tmp.length);
+                        }
+                    }
+                    else {
+                        obj.value = data[i];
                     }
                     break;
                 }
+                else {  continue;  }
             }
             this.setSelectedItem(obj);
         },
