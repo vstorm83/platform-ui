@@ -3,12 +3,12 @@
     <parent>
         <artifactId>platform-ui</artifactId>
         <groupId>org.exoplatform.platform-ui</groupId>
-        <version>4.1.0-SNAPSHOT</version>
+        <version>4.2.x-plfui-skin-module-SNAPSHOT</version>
     </parent>
 
     <groupId>org.exoplatform.platform-ui</groupId>
     <artifactId>platform-ui-skin</artifactId>
-    <version>4.1.0-SNAPSHOT</version>
+    <version>4.2.x-plfui-skin-module-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>Platform UI - Skin</name>
 
