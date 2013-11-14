@@ -41,15 +41,15 @@
 	      <dd title="<%= gadget.getDescription() %>"><%= gadget.getDescription() %></dd>
 	
 	      <dt><%=_ctx.appRes("UIGadgetInfo.label.viewUrl")%></dt>
-	      <dd title=" <%=viewURL %> "><a href="<%=viewURL %>" target="_blank">$viewURL</a></dd>
+	      <dd title=" <%=viewURL %> "><a href="javascript:void(0);" onclick="<%=viewURL %>" target="_blank">$viewURL</a></dd>
 	      
 	      <% if(gadget.isLocal()) {%>
 	      <dt><%=_ctx.appRes("UIGadgetInfo.label.editUrl")%></dt>
-	      <dd><a href="<%=editURL %>" target="_blank">$editURL</a></dd>
+	      <dd><a href="javascript:void(0);" onclick="<%=editURL %>" target="_blank">$editURL</a></dd>
 	      <% } %>
 	      
 	      <dt><%=_ctx.appRes("UIGadgetInfo.label.reference")%></dt>
-	      <dd><a href="<%=refURL %>" target="_blank"><%= refURL == "" ? "&nbsp;" : refURL%></a></dd>
+	      <dd><a href="javascript:void(0);" onclick="<%=refURL %>" target="_blank"><%= refURL == "" ? "&nbsp;" : refURL%></a></dd>
 	      
 	      <dt><%=_ctx.appRes("UIGadgetInfo.label.categories")%></dt>
 	      <dd><%= encoder.encode(categoryNames) %>

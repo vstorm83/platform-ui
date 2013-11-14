@@ -19,9 +19,9 @@
 			<span class="pull-left searchByGroup">
 				<span class="inputLarge ">
 				<%uiform.renderField(uiform.FIELD_GROUP)%>
-				<a href="<%=uicomponent.event('FindGroup')%>" style="display: none;"><span></span></a>
+				<a href="javascript:void(0);" onclick="<%=uicomponent.event('FindGroup')%>" style="display: none;"><span></span></a>
 				</span>
-				<a class="actionIcon" href="<%=uicomponent.event('SearchGroup')%>" rel="tooltip" data-placement="bottom" title="<%=uiform.getLabel(uiform.FIELD_GROUP)%>">
+				<a class="actionIcon" href="javascript:void(0);" onclick="<%=uicomponent.event('SearchGroup')%>" rel="tooltip" data-placement="bottom" title="<%=uiform.getLabel(uiform.FIELD_GROUP)%>">
 					<i class="uiIconSearch uiIconLightGray"></i>
 				</a>
 			</span>
@@ -29,7 +29,7 @@
 		if(uicomponent.isShowSearchUser()) {%>
 			<span class="searchByUser">
 				<span class="inputLarge ">
-					<a id="" class="btnSearchUser" data-placement="bottom" rel="tooltip" href="<%=uicomponent.event('Search')%>" title="<%=_ctx.appRes("UIUserSelector.label.quickSearch")%>"><i class="uiIconSearch uiIconLightGray"></i></a>
+					<a id="" class="btnSearchUser" data-placement="bottom" rel="tooltip" href="javascript:void(0);" onclick="<%=uicomponent.event('Search')%>" title="<%=_ctx.appRes("UIUserSelector.label.quickSearch")%>"><i class="uiIconSearch uiIconLightGray"></i></a>
 					<%uiform.renderField(uiform.FIELD_KEYWORD)%>
 				</span>
 				<span class="selectboxMedium">
@@ -119,7 +119,7 @@
 	<% if(isMulti) { %>
 	<div class="uiAction uiActionBorder">
 		<%for(String action : uicomponent.getActions()){%>
-				<a href="<%=uicomponent.event(action)%>" class="btn "><%=uiform.getLabel(action)%></a>
+				<a href="javascript:void(0);" onclick="<%=uicomponent.event(action)%>" class="btn "><%=uiform.getLabel(action)%></a>
 		<%}%>
 	</div>
 	<% } %>
