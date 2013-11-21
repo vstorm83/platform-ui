@@ -343,42 +343,52 @@
 		  }
 	
 	      var toolPanel = $("#UIPortalToolPanel");
-		  var uiPortal = toolPanel.find(".UIPortal");
-		  if(uiPortal.length) {
-		    dropableTargets.push(uiPortal[0]);
-		  } else {
-			var uiPage = toolPanel.find(".UIPage");
-		    dropableTargets.push(uiPage[0]);
+	      
+	      var uiRoot = eXo.portal.portalEditLevel == "EDIT_PAGE" ? toolPanel
+					.find(".UIPage") : toolPanel.find(".UIPortal");
+		  if (uiRoot.length && eXo.portal.UIPortal.canMoveComponent(dragBlock, uiRoot[0])) {
+		    dropableTargets.push(uiRoot[0]);
 		  }
-		  
-		  var uiContainers = toolPanel.find(".UIContainer") ;
+
+		  var uiContainers = uiRoot.find(".UIContainer");
 		  uiContainers.each(function() {
-			 var jCont = $(this);
-			 if (!jCont.closest(jDragObj).length && 
-					 !jCont.hasClass("ProtectedContainer") &&
-					 !jCont.hasClass("UITableColumnContainer")) {
-				 dropableTargets.push(this) ;
-			 }  
+			var jCont = $(this);
+			if (!jCont.closest(jDragObj).length
+						&& !jCont.hasClass("ProtectedContainer")
+						&& !jCont.hasClass("UITableColumnContainer")
+						&& eXo.portal.UIPortal.canMoveComponent(dragBlock, this)) {
+			  dropableTargets.push(this);
+			}
 		  });
 		  return dropableTargets;
 		},
 	
 		scrollOnDrag : function(dragObject, e) {
-	      var jWin = $(window);
-		  var workspaceHeight = $("#UIWorkingWorkspace").height();
+		  var jWin = $(window);
 		  var browserHeight = jWin.height();
-		  if(workspaceHeight <= browserHeight) return;
-		  var mouseY = e.clientY;
-		  var deltaTop = mouseY - (Math.round(browserHeight * 5/6));
-		  var deltaBottom = mouseY - (Math.round(browserHeight/6));
-		  
+		  var browserWidth = jWin.width();
+		  var mouseY = e.clientY || e.originalEvent.touches[0].clientY;
+		  var mouseX = e.clientX || e.originalEvent.touches[0].clientX;
+		  var deltaTop = mouseY - (Math.round(browserHeight * 5 / 6));
+		  var deltaBottom = mouseY - (Math.round(browserHeight / 6));
+		  var deltaLeft = mouseX - (Math.round(browserWidth * 5 / 6));
+		  var deltaRight = mouseX - (Math.round(browserWidth / 6));
 		  var scrollTop = jWin.scrollTop();
-		  if(deltaTop > 0) {		  
-			  jWin.scrollTop(scrollTop + deltaTop - 5);
+		  var scrollLeft = jWin.scrollLeft();
+		  if (deltaTop > 0) {
+			jWin.scrollTop(scrollTop + deltaTop - 5);
 		  }
-		  
-		  if(deltaBottom < 0 && scrollTop > 0) {
-			  jWin.scrollTop(scrollTop + deltaBottom);
+
+		  if (deltaBottom < 0 && scrollTop > 0) {
+			jWin.scrollTop(scrollTop + deltaBottom);
+		  }
+
+		  if (deltaLeft > 0) {
+			jWin.scrollLeft(scrollLeft + deltaLeft - 5);
+		  }
+
+		  if (deltaRight < 0 && scrollLeft > 0) {
+			jWin.scrollLeft(scrollLeft + deltaRight);
 		  }	  
 		},
 	

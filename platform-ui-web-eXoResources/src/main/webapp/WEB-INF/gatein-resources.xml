@@ -295,6 +295,9 @@
     <depends>
       <module>base</module>
     </depends>
+    <depends>
+      <module>jquery</module>
+    </depends>
   </module>
 
   <module>
@@ -863,6 +866,20 @@
     <depends>
       <module>portalControl</module>
     </depends>
+    <depends>
+      <module>jquery</module>
+    </depends>
+    <depends>
+      <module>portalDragDrop</module>
+    </depends>
+  </module>
+  
+  <!-- Container Javascript -->
+  <module>
+    <name>toggleContainer</name>
+    <script>
+      <path>/javascript/eXo/portal/ToggleContainer.js</path>
+    </script>
     <depends>
       <module>jquery</module>
     </depends>
