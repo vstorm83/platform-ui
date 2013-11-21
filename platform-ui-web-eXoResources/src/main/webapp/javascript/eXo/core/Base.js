@@ -164,8 +164,8 @@
 	  breakStream : null,
 	  
 	  init : function() {
-		  window.onresize =  this.managerResize;
-		  window.onscroll =  this.onScroll ;
+		  $(window).on("resize", this.managerResize);
+		  $(window).on("scroll", this.onScroll);
 	
 		  this.detectBrowser();
 	  },
@@ -313,7 +313,7 @@
 		managerResize : function() {
 		  var browser = eXo.core.Browser;
 		  var jWin = $(window);
-		  if(browser.currheight != jWin.height()) {
+		  if(browser.currheight != jWin.height() || (browser.currWidth != jWin.width())) {
 		    clearTimeout(browser.breakStream) ;
 		    browser.breakStream = setTimeout(browser.onResize, 100) ;
 		  }
@@ -440,7 +440,7 @@
 		  var posXObject = browser.findPosX(object,isRTL) ;	  
 		  if (!e) e = window.event;
 		  e = $.event.fix(e);
-		  var mouseX = e.pageX;  
+		  var mouseX = e.pageX || e.originalEvent.touches[0].pageX;  
 		  return mouseX == -1 ? -1 : mouseX - posXObject ;
 		},
 		
@@ -452,7 +452,7 @@
 		  var posYObject = $(object).offset().top;
 		  if (!e) e = window.event;
 		  e = $.event.fix(e);
-		  var mouseY = e.pageY;  
+		  var mouseY = e.pageY || e.originalEvent.touches[0].pageY;  
 		  return  mouseY == -1 ? -1 : mouseY - posYObject ;
 		},
 		

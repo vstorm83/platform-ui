@@ -45,7 +45,7 @@
 	    var resizeBtn = $(popup).find(".ResizeButton, .uiIconResize").last();
 	    if (resizeBtn.length) {
 	    	resizeBtn.show()
-	    	resizeBtn.off().on("mousedown", this.startResizeEvt);
+	    	resizeBtn.off().on("mousedown touchstart", this.startResizeEvt);
 	    }    	
 	
 	    if (isShowMask)
@@ -157,7 +157,7 @@
 			if (document.onmousedown) {
 				popupWindow.backupEvent = document.onmousedown;
 			}
-			document.onmousedown = function() {return false};		
+			$(document).on("mousedown touchstart", function() {return false});		
 		}
 		
 		var targetPopup = $(this).parents(".UIPopupWindow, .uiPopup")[0];
@@ -166,8 +166,8 @@
 		popupWindow.backupPointerY = base.Browser.findMouseRelativeY(targetPopup, evt) ;	
 
 		var jDoc = $(document);
-	  jDoc.on("mousemove.UIPopupWindow", popupWindow.resize);
-	  jDoc.on("mouseup.UIPopupWindow", popupWindow.endResizeEvt);
+	    jDoc.on("mousemove touchmove", popupWindow.resize);
+	    jDoc.on("mouseup touchend", popupWindow.endResizeEvt);
 	  },
 	
 	  /**
@@ -213,13 +213,13 @@
 	  endResizeEvt : function(evt) {
 		  popupWindow.resizedPopup = null;
 		  popupWindow.vresized = null;	     
-		  $(document).off("mousemove.UIPopupWindow").off("mouseup.UIPopupWindow");
+		  $(this).off("mousemove touchmove mouseup touchstop");
 	    
 	    //enable select text
 		if (navigator.userAgent.indexOf("MSIE") >= 0) {
 			document.onselectstart = popupWindow.backupEvent;
-		} else {                
-			document.onmousedown = popupWindow.backupEvent;
+		} else {
+			$(document).off("mousedown touchstart").on("mousedown touchstart", popupWindow.backupEvent);
 		}
 		popupWindow.backupEvent = null;
 	  },

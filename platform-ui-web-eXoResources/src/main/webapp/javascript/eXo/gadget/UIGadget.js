@@ -140,21 +140,22 @@
 			  gadgetTitle.css("display", "block");
 		  }
 
-		  gadget.find(".uiIconClose").on("click", function() {
+		  gadget
+	          .find(".uiIconClose, .maximizeAction, .minimizeAction, .uiIconEditMini")
+	          .on("mousedown touchstart", false);
+		  
+		  gadget.find(".uiIconClose").on("click touchstart", function() {
 			  eXoGadget.deleteGadget(this);
 		  });
-		  gadget.find(".maximizeAction").on("click", function() {
+		  gadget.find(".maximizeAction").on("click touchstart", function() {
 			  eXoGadget.maximizeGadget(this);
 		  });
-		  gadget.find(".minimizeAction").on("click", function() {
+		  gadget.find(".minimizeAction").on("click touchstart", function() {
 			  eXoGadget.minimizeGadget($(this).find("i"));
 		  });
-		  gadget.find(".uiIconEditMini").on("click", function() {
+		  gadget.find(".uiIconEditMini").on("click touchstart", function() {
 			  eXoGadget.editGadget(gadget.attr("id"));
-		  });
-		  gadget
-		      .find(".uiIconClose, .maximizeAction, .minimizeAction, .uiIconEditMini")
-		      .on("mousedown", false);
+		  });		  
 		  
 		  gadget.find('*[rel=\"tooltip\"]').tooltip();
 
