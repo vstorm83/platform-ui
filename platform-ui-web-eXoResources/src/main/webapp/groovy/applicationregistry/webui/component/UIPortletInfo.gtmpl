@@ -49,7 +49,7 @@
 
 		<% if(portletPreferences.getKeys().size() != 0) {%>
     <div class='row-fluid'>
-			<table class='uiGrid table table-hover table-striped' cellspacing='0'>
+			<table class='uiGrid table table-hover table-striped' cellspacing='0' summary="Portlet Preferences">
 				<tr>
 					<th colspan="2" style="text-align: center;"><%=_ctx.appRes("UIPortletInfo.title.portletPreferences")%></th>
 				</tr>

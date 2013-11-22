@@ -23,19 +23,19 @@
 						UIPopupWindow popupWindow = uicomponent.getChild(UIPopupWindow.class);
 				 %>
 					<div class="control-group">
-						 <label class="control-label" ><%=_ctx.appRes(uicomponent.getName() + ".label.username")%>:</label>
+						 <label class="control-label" for="username"><%=_ctx.appRes(uicomponent.getName() + ".label.username")%>:</label>
 						<div class="controls">
 							<% uiform.renderField(name) %>
- 							<a class="actionIcon" href="<%=uicomponent.event("SearchUser")%>"  data-placement="bottom" rel="tooltip" title="<%=_ctx.appRes(uicomponent.getName() + ".label.SearchUser")%>">
+ 							<a class="actionIcon" href="javascript:void(0);" onclick="<%=uicomponent.event("SearchUser")%>"  data-placement="bottom" rel="tooltip" title="<%=_ctx.appRes(uicomponent.getName() + ".label.SearchUser")%>">
 								<i class="uiIconSelectUser uiIconLightGray"></i>
 							</a>
  						</div>
 					</div>
 				<div class="control-group">
-						<label class="control-label" ><%=_ctx.appRes(uicomponent.getName() + ".label.membership")%>:</label>
+						<label class="control-label" for="membership"><%=_ctx.appRes(uicomponent.getName() + ".label.membership")%>:</label>
 						<div class="controls">
 							<% uiform.renderField(membership) %>
-							<a class="actionIcon" href="<%=uicomponent.event("Refresh")%>"  data-placement="bottom" rel="tooltip" title="<%=_ctx.appRes(uicomponent.getName() + ".label.Refresh")%>">
+							<a class="actionIcon" href="javascript:void(0);" onclick="<%=uicomponent.event("Refresh")%>"  data-placement="bottom" rel="tooltip" title="<%=_ctx.appRes(uicomponent.getName() + ".label.Refresh")%>">
 								<i class="uiIconRefresh uiIconLightGray"></i>
 							</a>
 						</div>

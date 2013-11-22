@@ -24,28 +24,28 @@
    UIForm uiForm = uicomponent.getAncestorOfType(UIForm.class);
 %>
 <div id="$uicomponent.id">
-   <table class="uiGrid table table-hover table-striped" cellspacing="0">
+   <table class="uiGrid table table-hover table-striped" cellspacing="0" summary="Component $uicomponent.id">
       <thead>
       <tr>
          <% if (name != null)
          		{ for (field in beanFields)
          			{ %>
-         				<th><%=_ctx.appRes(name + ".header." + field)%></th>
+         				<th id="<%= field%>" scope="col"><%=_ctx.appRes(name + ".header." + field)%></th>
          		<% }
          			if (beanActions != null)
          			{ %>
-         				<th class="center"><%=_ctx.appRes(name + ".header.action")%></th>
+         				<th class="center" id="actions" scope="col"><%=_ctx.appRes(name + ".header.action")%></th>
          		<% }
          		}
          		if (name == null)
          		{
          			for (field in beanFields)
          			{ %>
-         				<th><%=_ctx.appRes(uiParent.getName() + ".header." + field)%></th>
+         				<th id="<%= field%>" scope="col"><%=_ctx.appRes(uiParent.getName() + ".header." + field)%></th>
          	 <% }
          			if (beanActions != null && beanActions.length > 0)
          			{ %>
-         				<th class="center"><%=_ctx.appRes(uiParent.getName() + ".header.action")%></th>
+         				<th class="center" id="actions" scope="col"><%=_ctx.appRes(uiParent.getName() + ".header.action")%></th>
          	 <% }
          		} %>
       </tr>
@@ -84,12 +84,12 @@
                      fieldValue = "";
                   }
                   String value = encoder.encode(fieldValue.toString());
-                  println "<td><span  class=\""+cssClass+"\" >"+value+"</span></td>";
+                  println "<td headers=\"$field\"><span  class=\""+cssClass+"\" >"+value+"</span></td>";
                }
                if (beanActions != null && beanActions.length > 0)
                {
          %>
-         <td class="center actionContainer">
+         <td headers="actions" class="center actionContainer">
            <%
                  def beanIdField = uicomponent.getBeanIdField();
                  def beanId = uicomponent.getBeanIdFor(bean);
