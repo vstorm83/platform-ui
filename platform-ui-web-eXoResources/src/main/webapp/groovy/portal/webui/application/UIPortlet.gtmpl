@@ -1,17 +1,18 @@
 <%	
 	import org.exoplatform.portal.webui.workspace.UIPortalApplication;
 	import org.exoplatform.web.application.JavascriptManager;
-  import org.gatein.common.text.EntityEncoder;
+   import org.gatein.common.text.EntityEncoder;
 	import org.exoplatform.commons.utils.HTMLEntityEncoder;
+	import org.exoplatform.portal.webui.workspace.UIPortalApplication.EditMode;
 
 	import javax.portlet.WindowState;
 	
 	def rcontext = _ctx.getRequestContext();
 	
 	UIPortalApplication uiPortalApp = rcontext.getUIApplication();
-	boolean hasPermission = uicomponent.hasPermission();
-	if(!uiPortalApp.isEditing() && !hasPermission) return;
-	int portalMode = uiPortalApp.getModeState(); 
+	boolean hasAccessPermission = uicomponent.hasAccessPermission();
+	if(!uiPortalApp.isEditing() && !hasAccessPermission) return;
+	EditMode editMode = uiPortalApp.getEditMode();
 	
 	JavascriptManager jsmanager = rcontext.getJavascriptManager();
 
@@ -24,16 +25,16 @@
 	   def id = "UIPortlet-" + portletId;
 	   jsmanager.require("SHARED/portal", "portal").addScripts("portal.UIPortal.initMouseHover('" + id + "');");
 %>
-	<div class="UIPortlet <%=hasPermission?"":"ProtectedPortlet"%>" id="$id" style="top: 0px; left:0px;">
+	<div class="UIPortlet <%=hasAccessPermission?"":"ProtectedPortlet"%>" id="$id" style="top: 0px; left:0px;">
 		<div class="UIComponentBlock">
 		
-		<%if(portalMode == uiPortalApp.CONTAINER_BLOCK_EDIT_MODE || portalMode == uiPortalApp.APP_BLOCK_EDIT_MODE) { %>	
+		<%if (editMode == EditMode.BLOCK) { %>	
 			<div class="LAYOUT-BLOCK LAYOUT-PORTLET">
 				
 					<%/*Begin Middle Portlet Layout Decorator*/%>
 					<div class="portletLayoutDecorator">
 					<%
-					if(hasPermission) {
+					if(hasAccessPermission) {
 						print title;
 					} else print "<div class='ProtectedContent'>"+_ctx.appRes("UIPortlet.label.protectedContent")+"</div>";
 					%>
@@ -45,8 +46,8 @@
 		<%} %>
 <%
 	}
-		
-	if(portalMode != uiPortalApp.CONTAINER_BLOCK_EDIT_MODE && portalMode != uiPortalApp.APP_BLOCK_EDIT_MODE) {
+
+	if (editMode != EditMode.BLOCK) {
 		if(uicomponent.getShowInfoBar()) {
 			if(title == null || title.trim().length() < 1)
 				title = portletId;
@@ -55,9 +56,7 @@
 			String appDisplay = "block";
 			String appZIndex = "";
 			String windowWidth = uicomponent.getWidth();
-			if(windowWidth!= null && !windowWidth.contains("%") && !windowWidth.contains("px")) windowWidth += "px";
 			String windowHeight = uicomponent.getHeight();
-			if(windowHeight != null && !windowHeight.contains("%") && !windowHeight.contains("px")) windowHeight += "px";
 			String cssStyle = "style=\"";
 			cssStyle += "visibility: "+ visibility +";";
 			cssStyle += "display: "+ appDisplay +";";
@@ -100,7 +99,7 @@
 																	String modeLabel = _ctx.appRes("PortletMode.label." + mode);
 															%>
 																	<li>
-																		<a class="CategoryItem" href="$actionLink" title="$modeLabel">
+																		<a class="CategoryItem" href="javascript:void(0);" onclick="$actionLink" title="$modeLabel">
 																			$modeLabel
 																		</a>
 																	</li>
@@ -110,7 +109,7 @@
 																String modeLabel = _ctx.appRes("PortletMode.label.view");
 														%> 
 																<li>
-																	<a class="CategoryItem" href="<%=uicomponent.event("ChangePortletMode", "view")%>" title="$modeLabel">
+																	<a class="CategoryItem" href="javascript:void(0);" onclick="<%=uicomponent.event("ChangePortletMode", "view")%>" title="$modeLabel">
 																		$modeLabel
 																	</a>		
 																</li>										
@@ -126,7 +125,7 @@
 									String portletIcon = uicomponent.getIcon();
 									if(portletIcon == null) portletIcon = "PortletIcon";
 								%>
-								<h5 class="portletName"><i class="$portletIcon"> </i> <%=hasPermission ? title : _ctx.appRes("UIPortlet.label.protectedContent")%></h5>
+								<h5 class="portletName"><i class="$portletIcon"> </i> <%=hasAccessPermission ? title : _ctx.appRes("UIPortlet.label.protectedContent")%></h5>
 							 
 							
 					</div>
@@ -134,11 +133,11 @@
 					
 					
 					<div class="middleDecorator">
-						<div id="<%=portalMode == UIPortalApplication.NORMAL_MODE ? portletId : "EditMode-"+ portletId%>" style="width: 100%">
+						<div id="<%=editMode == EditMode.NO_EDIT ? portletId : "EditMode-"+ portletId%>" style="width: 100%">
 							<div class="PORTLET-FRAGMENT UIResizableBlock UIApplication" style="width: 100%; height: $windowHeight;">
 								<% 
 									if(windowState != WindowState.MINIMIZED) {
-										if(hasPermission) println portletContent;
+										if(hasAccessPermission) println portletContent;
 										else println "<div class='ProtectedContent'>"+_ctx.appRes("UIPortlet.label.protectedContent")+"</div>";
 									}
 								%>
@@ -158,20 +157,20 @@
 		if(windowState != WindowState.MINIMIZED) {
 			String cssStyle = "";
  			String windowWidth = uicomponent.getWidth();
-			if(windowWidth!= null && !windowWidth.contains("%") && !windowWidth.contains("px"))
-      {
-			   cssStyle += "width: "+ windowWidth +"px;";
-      }
- 			String windowHeight = uicomponent.getHeight();
-			if(windowHeight != null && !windowHeight.contains("%") && !windowHeight.contains("px"))
+			if(windowWidth != null)
 			{
-         cssStyle += "height: "+ windowHeight +"px;";
+				cssStyle += "width: "+ windowWidth +";";
+			}
+ 			String windowHeight = uicomponent.getHeight();
+ 			if(windowHeight != null)
+			{
+				cssStyle += "height: "+ windowHeight +";";
 			}
  %>
- 				<div id="<%=portalMode == UIPortalApplication.NORMAL_MODE ? portletId : "EditMode-"+ portletId%>">
+ 				<div id="<%=editMode == EditMode.NO_EDIT ? portletId : "EditMode-"+ portletId%>">
 					<div class="PORTLET-FRAGMENT" style="${cssStyle}">
  						<% 
-							if(hasPermission)
+							if(hasAccessPermission)
               {
 							   println portletContent; 
               }
@@ -187,7 +186,7 @@
 	}
 }
 	if(uiPortalApp.isEditing()) {
-		if(portalMode != uiPortalApp.CONTAINER_BLOCK_EDIT_MODE && portalMode != uiPortalApp.APP_BLOCK_EDIT_MODE) {
+		if (editMode != EditMode.BLOCK) {
 %>
 			</div>
 		<%} %>
@@ -207,10 +206,10 @@
 								if(title.length() > 30) title = title.substring(0,27) + "...";
 							%>
 							<i class="$portletIcon"></i>
-							<span><%=hasPermission ? title : _ctx.appRes("UIPortlet.label.protectedContent")%></span>
-							<%if(hasPermission) {%>
-								<a href="<%=uicomponent.event("EditPortlet","$uicomponent.id")%>" rel="tooltip" data-placement="bottom" title="<%=_ctx.appRes("UIPortlet.tooltip.editPortlet")%>"><i class="uiIconEdit uiIconWhite"></i></a>
-								<a href="<%=uicomponent.event("DeleteComponent","$uicomponent.id")%>" rel="tooltip" data-placement="bottom" title="<%=_ctx.appRes("UIPortlet.tooltip.deletePortlet")%>"><i class="uiIconTrash uiIconWhite"></i></a>
+							<span><%=hasAccessPermission ? title : _ctx.appRes("UIPortlet.label.protectedContent")%></span>
+							<%if(hasAccessPermission) {%>
+								<a href="javascript:void(0);" onclick="<%=uicomponent.event("EditPortlet","$uicomponent.id")%>" rel="tooltip" data-placement="bottom" title="<%=_ctx.appRes("UIPortlet.tooltip.editPortlet")%>"><i class="uiIconEdit uiIconWhite"></i></a>
+								<a href="javascript:void(0);" onclick="<%=uicomponent.event("DeleteComponent","$uicomponent.id")%>" rel="tooltip" data-placement="bottom" title="<%=_ctx.appRes("UIPortlet.tooltip.deletePortlet")%>"><i class="uiIconTrash uiIconWhite"></i></a>
 							<%}%>	
 					
 						<%/*End InfoBar*/ %>

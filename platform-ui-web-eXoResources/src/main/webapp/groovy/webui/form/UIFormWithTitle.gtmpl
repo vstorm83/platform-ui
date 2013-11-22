@@ -16,7 +16,7 @@
 						<div class="control-group">
 							<%fieldName = uicomponent.getLabel(field.getName());%>
 							<%if(field instanceof UIFormInputBase && !fieldName.equals(uicomponent.getId())) { %>												
-								<label class="control-label portlet-form-label">
+								<label class="control-label portlet-form-label" for="<%= field.getName() %>">
 									<%if(fieldName != null && fieldName.length() > 0) {%> 
 										<%=uicomponent.getLabel(field.getName()) %>
 									<%}%>
