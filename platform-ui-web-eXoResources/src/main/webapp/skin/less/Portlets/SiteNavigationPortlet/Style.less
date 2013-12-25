@@ -74,9 +74,12 @@
 			cursor: pointer;
 		}
 	}
-}
+} 
 
-.uiManagementSite .NothingEditable {
-        text-align: center;
+.uiManagementSite .nothingEditable  {
         font-weight: bold; 
-}
+        color: @grayLight;
+        &+ .uiAction  {
+        	margin-top: 20px;
+        }
+} 

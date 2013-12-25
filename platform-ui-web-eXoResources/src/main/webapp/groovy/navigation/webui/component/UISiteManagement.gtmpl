@@ -27,7 +27,7 @@
 		<%
             if (uicomponent.getPortalConfigs() == null || uicomponent.getPortalConfigs().size() == 0)
             { %>
-                <div class="NothingEditable">$noSitesLabel</div>  
+                <div class="nothingEditable center">$noSitesLabel</div>  
       <%    } else {           
       %>
 		 <table class="managementBlock" summary="Sites edit">

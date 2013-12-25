@@ -21,7 +21,7 @@
     String noNavigationsLabel = _ctx.appRes("UIGroupNavigationManagement.Label.NoNavigations");
     if (navigations == null || navigations.size() == 0) { 
       %>
-      <div class="NothingEditable">$noNavigationsLabel</div>
+      <div class="nothingEditable center">$noNavigationsLabel</div>
       <%
     } 
     else {
@@ -64,5 +64,6 @@
       </tr>
     <% } %>    
     </tbody>                           
-  </table>  
+  </table>    
+   <% } %>   
 </div>
