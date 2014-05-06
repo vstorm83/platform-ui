@@ -5,6 +5,8 @@
    import java.text.SimpleDateFormat;
    import org.gatein.common.text.EntityEncoder;
    import org.exoplatform.commons.utils.HTMLEntityEncoder;
+   import org.exoplatform.portal.webui.workspace.UIPortalApplication;
+   import org.exoplatform.web.application.JavascriptManager;
 
    String[] beanFields = uicomponent.getBeanFields();
    String[] beanActions = uicomponent.getBeanActions();
@@ -17,6 +19,19 @@
    UIComponent uiParent = uicomponent.getParent();
    String name = uicomponent.getLabel();
    UIForm uiForm = uicomponent.getAncestorOfType(UIForm.class);
+
+   String yeslabel;
+   String noLabel;
+   if(name != null) {
+        yesLabel = _ctx.appRes(name + ".label.yes");
+        noLabel = _ctx.appRes(name + ".label.no");
+   } else {
+        yesLabel = _ctx.appRes(uiParent.getName() + ".label.yes");
+        noLabel = _ctx.appRes(uiParent.getName() + ".label.no");
+   }
+   def rcontext = _ctx.getRequestContext();
+   JavascriptManager jsManager = rcontext.getJavascriptManager();
+   jsManager.require("SHARED/jquery", "jq").require("SHARED/iphoneStyleCheckbox", "iphoneStyle").addScripts("jq('input.yesno').each(function(){jq(this).iphoneStyle({checkedLabel:'$yesLabel',uncheckedLabel:'$noLabel', onChange: function(el, val){jq(el).trigger('click');}});jq(this).change(function(){jq(this).trigger('click');});});");
 %>
 <div id="$uicomponent.id">
    <table class="uiGrid table table-hover table-striped" cellspacing="0" summary="Component $uicomponent.id">
@@ -104,18 +119,15 @@
                             enableDisableActionLink = uiParent.event(enableDisableAction, beanId);
                         }
 
-                        String classIcon = "";
+                        String checked = "";
                         if (uicomponent.getFieldValue(bean, "enabled")) {
                             enableDisableTitle = "Disabled User";
-                            classIcon = "uiIconSelectPage uiIconLightGray";
+                            checked = "checked=\"checked\"";
                         } else {
                             enableDisableTitle = "Enabled User";
-                            classIcon = "uiIconSelectPage uiIconBlue";
                         }
                         %>
-                        <a href="javascript:;" onclick="$enableDisableActionLink">
-                            <i class="${classIcon}"></i>
-                        </a>
+                        <input type="checkbox" class="yesno" data-yes="yes" data-no="no" onclick="$enableDisableActionLink" $checked />
                     </div>
                    </td>
                <%}%>
