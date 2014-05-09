@@ -87,7 +87,7 @@
             def beanId = uicomponent.getBeanIdFor(bean);
             if (bean instanceof org.exoplatform.services.organization.idm.UserImpl) {
                 if(!uicomponent.getFieldValue(bean, "enabled")) {
-                    rowStyle = "font-style: italic; background: darkgray";
+                    rowStyle = "color: #999999";
                 } else {
                     rowStyle = null;
                 }
