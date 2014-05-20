@@ -157,6 +157,7 @@
 		if(windowState != WindowState.MINIMIZED) {
 			String cssStyle = "";
  			String windowWidth = uicomponent.getWidth();
+
 			if(windowWidth != null)
 			{
 				cssStyle += "width: "+ windowWidth +";";
