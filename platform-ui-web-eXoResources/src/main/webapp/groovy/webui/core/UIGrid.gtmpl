@@ -22,6 +22,11 @@
    UIComponent uiParent = uicomponent.getParent();
    String name = uicomponent.getLabel();
    UIForm uiForm = uicomponent.getAncestorOfType(UIForm.class);
+
+   def emptyMessage = _ctx.appRes(uicomponent.getId() + ".msg.empty");
+   if("empty".equals(emptyMessage)) {
+        emptyMessage = _ctx.appRes("UIGrid.msg.empty");
+   }
 %>
 <div id="$uicomponent.id">
    <table class="uiGrid table table-hover table-striped" cellspacing="0" summary="Component $uicomponent.id">
@@ -55,7 +60,7 @@
       { %>
       <tr>
       	 <td class="empty center" colspan="<%=colnum%>">
-            <%=_ctx.appRes("UIGrid.msg.empty")%>
+            <%=emptyMessage%>
          </td>
       </tr>
       <% }
