@@ -24,7 +24,7 @@
   <parent>
     <artifactId>maven-parent-pom</artifactId>
     <groupId>org.exoplatform</groupId>
-    <version>12</version>
+    <version>13</version>
     <relativePath />
   </parent>
   <groupId>org.exoplatform.platform-ui</groupId>
@@ -72,7 +72,14 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
-      <!-- Declare our own modules -->
+      <!-- Declare our own artifacts -->
+      <dependency>
+        <groupId>org.exoplatform.platform-ui</groupId>
+        <artifactId>platform-ui</artifactId>
+        <version>${project.version}</version>
+        <classifier>source-release</classifier>
+        <type>zip</type>
+      </dependency>
       <dependency>
         <groupId>org.exoplatform.platform-ui</groupId>
         <artifactId>platform-ui-web-eXoResources</artifactId>

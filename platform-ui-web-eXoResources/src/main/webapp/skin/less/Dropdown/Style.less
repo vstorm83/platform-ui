@@ -9,6 +9,7 @@
 	// Links within the dropdown menu
 	li > a {
 	padding: 5px 10px;
+	color: @textColor;
 	}
 	&.dropdownArrowTop {
 			&:before,&:after {				
@@ -56,6 +57,10 @@
 .dropdown-menu .active > a:hover,
 .dropdown-submenu:hover > a {
   #gradient > .vertical(@dropdownLinkBackgroundHover, darken(@dropdownLinkBackgroundHover, 15%));
+}
+
+.dropdown-menu .divider {
+	margin: 5px 0 4px;
 }
 
 #ThemeDropDown {

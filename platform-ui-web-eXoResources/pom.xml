@@ -25,7 +25,7 @@
     <artifactId>platform-ui</artifactId>
     <groupId>org.exoplatform.platform-ui</groupId>
     <version>4.1.x-plfui-upgrade-gatein-3.7.x-SNAPSHOT</version>
-  </parent>
+ </parent>
   <artifactId>platform-ui-web-eXoResources</artifactId>
   <packaging>war</packaging>
   <name>Platform-UI - Web Resources</name>
