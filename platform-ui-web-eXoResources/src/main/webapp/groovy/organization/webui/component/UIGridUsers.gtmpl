@@ -117,7 +117,7 @@
                }%>
 
                <!-- EnableDisableUser action -->
-               <% if (bean instanceof org.exoplatform.services.organization.idm.UserImpl) {%>
+               <% if (bean instanceof org.exoplatform.services.organization.impl.UserImpl) {%>
                    <td headers="DisableEnableUser">
                     <div class="center">
                         <%
@@ -159,7 +159,7 @@
                             }
                             classIcon = "uiIcon" + action;
                             if (action == "DisableEnableUser") {
-                                if (bean instanceof org.exoplatform.services.organization.idm.UserImpl) {
+                                if (bean instanceof org.exoplatform.services.organization.impl.UserImpl) {
                                     if (uicomponent.getFieldValue(bean, "enabled")) {
                                         title = "Disabled User";
                                         classIcon = "uiIconSelectPage uiIconLightGray";
